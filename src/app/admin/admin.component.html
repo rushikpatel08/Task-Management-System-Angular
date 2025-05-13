@@ -1,0 +1,243 @@
+<div class="border" style="background-color: #f8f9fa; display: inline-block; width: 25%;height: 100%;">
+
+  <h1 class="title user ">User</h1>
+  <button class="btn btn-primary adduser" data-bs-toggle="modal" data-bs-target="#userModal">
+    <span class="material-icons">add</span>
+    <span class="material-icons">people</span>
+  </button>
+
+  <hr>
+  <div class="mt-3">
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th style="display: none;">Id</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let user of userList">
+          <tr *ngIf="user.role === 'USER'">
+            <td style="display: none;">{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+              <span class="badge d-inline-block" [ngStyle]="{
+          'background-color': userColors[user.id!] || '#ccc',
+          width: '40px',
+          height: '20px'
+        }"></span>
+            </td>
+            <td>
+              <button class="btn" (click)="deleteUser(user.id!)">
+                <span class="material-icons deletebtn">delete</span>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <div class="task">
+    <h1 class="title user">Task</h1>
+    <button class="btn btn-primary adduser" data-bs-toggle="modal" data-bs-target="#taskModal">
+      <span class="material-icons">add</span>
+      <span class="material-icons">task</span>
+    </button>
+    <hr>
+    <div class="mt-3">
+      <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th style="display: none;">Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Assigned To</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of taskList"
+            [ngStyle]="{ 'background-color': userColors[task.assignedTo.id ?? 0] || '#f0f0f0' }">
+            <td style="display: none;">{{ task.id }}</td>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.startDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{ task.endDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{ task.assignedTo.name }}</td>
+            <!--<td>
+              <span class="badge d-inline-block"
+                    [ngStyle]="{ 'background-color': userColors[task.assignedTo?.id!] || '#ccc', width: '20px', height: '20px' }">
+              </span>
+            </td>-->
+            <td><button class="btn" (click)="deleteTask(task.id!)">
+                <span class="material-icons deletebtn">delete</span>
+              </button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h1 class="modal-title" id="taskModalLabel">Add New User</h1>
+          <button type="button" #closeBtn class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+          <div class="modal-body">
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"><span class="material-icons">email</span></span>
+              <input type="email" class="form-control" name="email" [(ngModel)]="newUser.email" placeholder="Email"
+                required />
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"><span class="material-icons">person</span></span>
+              <input type="text" class="form-control" name="name" [(ngModel)]="newUser.name" placeholder="Full Name"
+                required />
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"><span class="material-icons">lock</span></span>
+              <input type="password" class="form-control" name="password" [(ngModel)]="newUser.password"
+                placeholder="Password" required />
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"><span class="material-icons">admin_panel_settings</span></span>
+              <select class="form-select" name="role" [(ngModel)]="newUser.role" required>
+                <option value="" disabled selected>Select Role</option>
+                <option value="ADMIN">Admin</option>
+                <option value="USER">User</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="Save User" />
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true" #taskModal>
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addTaskModalLabel">Add Task</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form #taskForm="ngForm" (ngSubmit)="onSubmitTask(taskForm)">
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <span class="input-group-text"><span class="material-icons">title</span></span>
+            <input type="text" class="form-control" name="title" [(ngModel)]="newTask.title" placeholder="Task Title"
+              required />
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"><span class="material-icons">description</span></span>
+            <textarea class="form-control" name="description" [(ngModel)]="newTask.description"
+              placeholder="Task Description" required></textarea>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"><span class="material-icons">date_range</span></span>
+            <input type="date" class="form-control" name="startDate" [(ngModel)]="newTask.startDate" required />
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"><span class="material-icons">date_range</span></span>
+            <input type="date" class="form-control" name="endDate" [(ngModel)]="newTask.endDate" required />
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"><span class="material-icons">person</span></span>
+            <select class="form-select" name="assignedTo" [(ngModel)]="newTask.assignedTo.id" required>
+              <option value="" disabled selected>Assign To</option>
+              <ng-container *ngFor="let user of userList">
+                <option *ngIf="user.role === 'USER'" [value]="user.id">{{ user.name }}</option>
+              </ng-container>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary" value="Save User" />
+          <button type="button" class="btn btn-danger" #closeBtn data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div>
+
+  </div>
+  <div class="d-flex justify-content-between mb-3 Calendarview">
+
+    <button class="btn btn-primary" (click)="goToPreviousMonth()">
+      <span class="material-icons">arrow_left</span>
+    </button>
+
+    <h3 class="text-center month">{{ currentDate | date: 'MMMM yyyy' }}</h3>
+
+    <button class="btn btn-primary" (click)="goToNextMonth()">
+      <span class="material-icons">arrow_right</span>
+    </button>
+    <div>
+      <span class="material-icons" style="margin-left:90%; font-size: 30px; color: blue; cursor: pointer;"
+        (click)="logout()">
+        logout
+      </span>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+
+
+  <!-- Day Headers -->
+  <div class="row bg-light fw-bold text-center mt-5">
+    <div class="col border py-3 days" *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+      {{ day }}
+    </div>
+  </div>
+
+  <!-- Calendar Grid -->
+  <div class="row" *ngFor="let week of weeks">
+    <div class="col border p-3 text-end" *ngFor="let day of week; let i = index"
+      [ngClass]="{'bg-grey': i === 0 || i === 6, 'border-blue': isToday(day)}" style="min-height: 115px;">
+      <div class="text-end">{{ day | date: 'd' }}</div>
+      <div class="task-name  text-start mt-1" *ngFor="let task of taskList"
+        [hidden]="!isDateInRange(day, task.startDate, task.endDate) || isWeekend(day)">
+        <span class="badge text-dark" [ngStyle]="{ 'background-color': userColors[task.assignedTo?.id!] || '#ccc' }">
+          {{ task.title }}
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>

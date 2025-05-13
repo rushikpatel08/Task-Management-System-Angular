@@ -1,0 +1,72 @@
+.container
+{
+    margin-left: 28%;
+}
+.Calendarview
+{
+    margin-top: -70%;
+}
+.month{
+  font-weight: bold;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.days{
+   
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.bg-grey {
+    background-color: #d3d3d3 !important;
+  }
+  button {
+    font-size: 15px;
+    padding: 5px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+  .border-blue {
+    border: 2px solid #007bff !important;
+    border-radius: 5px;
+  }
+  #taskModalLabel{
+    margin-top: 10px;
+    margin-left: 30%;
+  }
+  .user
+  {
+    margin-top: 5%;
+    margin-left: 30%;
+    font-weight: bold;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+  }
+  hr{
+    height:3px;
+    background-color: black;  /* Color of the line */
+    border: none; 
+  }
+  .task{
+    margin-top: 10%;
+    
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .adduser
+  {
+    margin-top: -15%;
+    margin-left:80%;
+    font-size: 6px;
+
+  }
+  .deletebtn
+  {
+    color: red;
+    font-size: 21px;
+  }

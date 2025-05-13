@@ -1,0 +1,94 @@
+<div class="border" style="background-color: #f8f9fa; display: inline-block; width: 25%;height: 100%;">
+
+  
+  
+  <div class="task">
+    <h1 class="title user">Task</h1>
+   
+    <br>
+    <hr>
+    <div class="mt-3">
+      <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th style="display: none;">Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of taskList">
+            <td style="display: none;">{{ task.id }}</td>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.startDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{ task.endDate | date:'yyyy-MM-dd'}}</td>
+            <td>
+              <span class="badge d-inline-block"
+                    [ngStyle]="{ 'background-color': taskColors[task.id!] || '#ccc', width: '20px', height: '20px' }">
+              </span>
+            </td>
+            <!--<td><button class="btn" >
+                <span class="material-icons deletebtn border">done</span>
+              </button></td>-->
+          </tr>
+            
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+ 
+</div>
+
+<div class="container mt-5">
+    <div>
+      
+    </div>
+    <div class="d-flex justify-content-between mb-3 Calendarview">
+      <button class="btn btn-primary" (click)="goToPreviousMonth()">
+        <span class="material-icons">arrow_left</span>
+      </button>
+  
+      <h3 class="text-center month">{{ currentDate | date: 'MMMM yyyy' }}</h3>
+  
+      <button class="btn btn-primary" (click)="goToNextMonth()">
+        <span class="material-icons">arrow_right</span>
+      </button>
+      <div>
+        <span class="material-icons" style="margin-left:90%; font-size: 30px; color: blue; cursor: pointer;"
+          (click)="logout()">
+          logout
+        </span>
+    </div>
+    </div>
+  
+    <!-- Modal -->
+   
+  
+    <!-- Day Headers -->
+    <div class="row bg-light fw-bold text-center mt-5">
+      <div class="col border py-3 days" *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+        {{ day }}
+      </div>
+    </div>
+  
+    <!-- Calendar Grid -->
+    <div class="row" *ngFor="let week of weeks">
+    <div class="col border p-3 text-end" *ngFor="let day of week; let i = index"
+      [ngClass]="{'bg-grey': i === 0 || i === 6, 'border-blue': isToday(day)}" style="min-height: 115px;">
+      <div class="text-end">{{ day | date: 'd' }}</div>
+      <div class="task-name text-start mt-1" *ngFor="let task of taskList"
+        [hidden]="!isDateInRange(day, task.startDate, task.endDate) || isWeekend(day)">
+        <span class="badge text-dark" [ngStyle]="{ 'background-color': taskColors[task.id!] || '#ccc' }">
+          {{ task.title }}
+        </span>
+      </div>
+    </div>
+  </div>
+  </div>
+  

@@ -1,0 +1,24 @@
+<div id="id01" class="modal">
+  
+  <form class="modal-content animate"  method="post"  #loginForm="ngForm"  (ngSubmit)="onSubmit(loginForm)" >
+    <div class="imgcontainer">
+      <img src="./assets/img_avatar2.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" ngModel required #uname="ngModel">
+
+    <br><br>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" ngModel  required #psw="ngModel">
+        
+      <button type="submit" >Login</button>
+      
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      
+    </div>
+  </form>
+</div>
