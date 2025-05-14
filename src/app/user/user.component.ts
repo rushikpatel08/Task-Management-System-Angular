@@ -80,7 +80,7 @@ isWeekend(date: Date): boolean {
   const endDate = new Date(end).setHours(0, 0, 0, 0);
   return dayDate >= startDate && dayDate <= endDate;
 }
-  api = 'http://localhost:8080';
+  api = 'http://ec2-44-205-244-209.compute-1.amazonaws.com:8080';
   
   taskList: Task[] = [];
 
