@@ -128,7 +128,7 @@ getRandomColor(): string {
 }
 
 
-  api = 'http://ec2-44-205-244-209.compute-1.amazonaws.com:8080';
+  api = 'http://ec2-54-165-190-22.compute-1.amazonaws.com:8080';
 
   // API call to save a user
   saveUser(user: User): Observable<User> {
